@@ -12,6 +12,7 @@ const methodOveride= require('method-override');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
+const helmet = require('helmet');
 const ExpressError = require('./utils/ExpressError'); 
 
 const mongoSanitize = require('express-mongo-sanitize');
