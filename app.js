@@ -9,7 +9,6 @@ const ejsMate = require('ejs-mate');
 const session = require('express-session');
 const flash =  require('connect-flash');
 const methodOveride= require('method-override');
-const { Join } = require('join');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
