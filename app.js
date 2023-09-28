@@ -52,7 +52,7 @@ app.use(mongoSanitize({
 
 const store = new MongoDBStore({
     url: dbUrl,
-    secret: 'thisshouldbeasacret!',
+    secret,
     touchAfter: 24 * 60 * 60
 })
 
@@ -63,7 +63,7 @@ store.on('error', function (e) {
 const sessionConfig = {
     store,
     name:'session',
-    secret: 'thisshouldbeasacret!',
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -128,7 +128,7 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()))
+passport.use(new LocalStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -139,12 +139,6 @@ app.use((req, res, next) => {
     res.locals.error = req.flash('error');
     next();
 });
-
-app.get('/fakeUser', async (req, res) => {
-    const user = new User ({email: 'alcia@gmail.com', username:'alicia'});
-    const newUser =await User.register(user, 'chicken');
-    res.send(newUser);
-})
 
 app.use('/', userRoutes)
 app.use('/campgrounds', campgroundRoutes)
@@ -165,6 +159,7 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', {err});
 });
 
-app.listen(3000, ()=> {
-    console.log('Serving on port 3000')
-});
+const port = process.env.PORT || 3000;	
+app.listen(port, () => {	
+    console.log(`Serving on port ${port}`)	
+})
